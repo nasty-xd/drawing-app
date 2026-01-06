@@ -1,4 +1,4 @@
-// Получаем элементы DOM
+// Get DOM elements
 const canvas = document.getElementById('canvas') as HTMLCanvasElement;
 const ctx = canvas.getContext('2d')!;
 const colorPicker = document.getElementById('colorPicker') as HTMLInputElement;
@@ -9,36 +9,36 @@ const newBtn = document.getElementById('newBtn') as HTMLButtonElement;
 const saveBtn = document.getElementById('saveBtn') as HTMLButtonElement;
 const gallery = document.getElementById('gallery') as HTMLDivElement;
 
-//
+
 const deleteAllBtn = document.getElementById('deleteAllBtn') as HTMLButtonElement;
-//
 
 
-// Устанавливаем начальные значения
+
+// Set initial values
 let isDrawing = false;
 let lastX = 0;
 let lastY = 0;
 let currentColor = '#000000';
 
-// Функция для очистки холста
+// Function to clear the canvas
 function clearCanvas() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-// Функция для рисования
+// Function to draw
 function draw(e: MouseEvent) {
-    if (!isDrawing) return; // если не в режиме рисования, выходим
+    if (!isDrawing) return; // If not in drawing mode, exit
     ctx.lineWidth = parseInt(brushSize.value, 10);
     ctx.lineCap = 'round';
-    ctx.strokeStyle = currentColor; // устанавливаем цвет линии
+    ctx.strokeStyle = currentColor; // Set line color
     ctx.beginPath();
-    ctx.moveTo(lastX, lastY); // начинаем с последней позиции
-    ctx.lineTo(e.offsetX, e.offsetY); // рисуем линию дл текущей позиции
+    ctx.moveTo(lastX, lastY); // Start from the last position
+    ctx.lineTo(e.offsetX, e.offsetY); // Draw line to the current position
     ctx.stroke();
-    [lastX, lastY] = [e.offsetX, e.offsetY]; // обновляем последнюю позицию
+    [lastX, lastY] = [e.offsetX, e.offsetY]; // Update the last position
 }
 
-//Обработчики событий мыши
+// Mouse event handlers
 canvas.addEventListener('mousedown', (e) => {
     isDrawing = true;
     [lastX, lastY] = [e.offsetX, e.offsetY];
@@ -47,10 +47,10 @@ canvas.addEventListener('mousemove', draw);
 canvas.addEventListener('mouseup', () => isDrawing = false);
 canvas.addEventListener('mouseout', () => isDrawing = false);
 
-// Обработчик для кнопки "New"
+// Handler for the "New" button
 newBtn.addEventListener('click', clearCanvas);
 
-// Обработчики для палитры цветов
+// Handlers for the color palette
 colorSwatchers.forEach(swatch => {
     swatch.addEventListener('click', () => {
         currentColor = (swatch as HTMLElement).dataset.color!;
@@ -63,12 +63,12 @@ colorPicker.addEventListener('input', (e) => {
     currentColor = (e.target as HTMLInputElement).value;
 });
 
-// Обработчик для размера кисти
+// Handler for brush size
 brushSize.addEventListener('input', (e) => {
     brushSizeValue.textContent = (e.target as HTMLInputElement).value;
 });
 
-// Функция для сохранения рисунка
+// Function to save the drawing
 async function saveDrawing() {
     const image = canvas.toDataURL('image/png');
     const response = await fetch('/save', {
@@ -80,26 +80,26 @@ async function saveDrawing() {
     });
     const data = await response.json();
     console.log(data.message);
-    loadGallery(); // перезагружаем галлерею
+    loadGallery(); // Reload the gallery
 }
 
 saveBtn.addEventListener('click', saveDrawing);
 
-// Функция для удаления рисунка
+// Function to delete the drawing
 async function deleteDrawing(filename: string) {
     const  response = await fetch(`/image/${filename}`, {
         method: 'DELETE'
     });
     const data = await response.json();
     console.log(data.message);
-    loadGallery(); // перезагружаем галлерею
+    loadGallery(); // Reload the gallery
 }
 
-// Функция для загрузки галереи
+// Function to load the gallery
 async function loadGallery() {
     const response = await fetch('/images');
     const images = await response.json();
-    gallery.innerHTML = ''; // очищаем галерею
+    gallery.innerHTML = ''; // Clear the gallery
     images.forEach((image: string) => {
         const imgContainer = document.createElement('div');
         imgContainer.className = 'gallery-item';
@@ -120,7 +120,7 @@ async function loadGallery() {
 
 
 
-//
+
 async function deleteAllDrawings() {
     const response = await fetch('/images', {
         method: 'DELETE'
@@ -128,12 +128,12 @@ async function deleteAllDrawings() {
 
     const data = await response.json();
     console.log(data.message);
-    loadGallery(); // обновляем галерею
+    loadGallery(); 
 }
 
 deleteAllBtn.addEventListener('click', deleteAllDrawings);
-//
 
 
-// Загружаем галерею при загрузке страницы
+
+// Load the gallery on page load
 loadGallery();
