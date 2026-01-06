@@ -1,5 +1,5 @@
-Drawing App
-##Project Description
+# Drawing App
+## Project Description
 
 **Drawing App** is a simple and interactive web application for creating digital drawings. Users can choose colors, adjust brush sizes, draw on a canvas, and save their artwork. The app also features a gallery to display saved drawings.
 
