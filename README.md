@@ -23,11 +23,11 @@ Interactive UI – toolbar with intuitive controls and real-time updates
 
 - **JavaScript** – core drawing logic and event handling
 
-- ** Canvas API** – rendering drawings on the canvas
+- **Canvas API** – rendering drawings on the canvas
 
-- ** Font Awesome** – icons for toolbar actions
+- **Font Awesome** – icons for toolbar actions
 
-- ** DOM Manipulation** – dynamic updates for brush size, color, and gallery
+- **DOM Manipulation** – dynamic updates for brush size, color, and gallery
 
 ---
 
