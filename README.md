@@ -36,8 +36,7 @@ Interactive UI – toolbar with intuitive controls and real-time updates
 1. Clone the repository:
 
 ```bash
-git clone <repository_URL>
-cd ts_todo
+git clone https://github.com/nasty-xd/drawing-app.git
 ```
 
 2. Install dependencies:
